@@ -1,0 +1,49 @@
+apiVersion: apps/v1beta2
+kind: DaemonSet
+metadata:
+  name: exec-on-host
+  labels:
+    app: exec-on-host
+spec:
+  selector:
+    matchLabels:
+      app: exec-on-host
+  template:
+    metadata:
+      labels:
+        app: exec-on-host
+    spec:
+      hostPID: true
+      nodeSelector:
+        kubernetes.io/arch: "amd64"
+        node-role.kubernetes.io/jarvice-compute: ""
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/jarvice-compute
+        operator: Exists
+      containers:
+      - name: exec-on-host
+        #image: ubuntu:20.04
+        image: centos:8
+        imagePullPolicy: IfNotPresent
+        command:
+          - /bin/bash
+          - /exec-on-host/exec-on-host.sh
+        #env:
+        #  - name: HOST_MOUNT_DIR
+        #    value: "/"
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: exec-on-host
+          mountPath: /exec-on-host
+        - name: hostfs
+          mountPath: /host
+      volumes:
+      - name: exec-on-host
+        configMap:
+          name: exec-on-host
+          optional: false
+      - name: hostfs
+        hostPath:
+          path: /

@@ -1,5 +1,7 @@
 # k8s-exec-on-host-ds
-DaemonSet to execute arbitrary commands on kubernetes host nodes
+
+This DaemonSet can be used to execute arbitrary commands on kubernetes host
+nodes.
 
 **There are obvious security implications to using this DaemonSet.  Please be
 sure that you know what you are doing before deploying it.**

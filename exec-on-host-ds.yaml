@@ -15,7 +15,6 @@ spec:
     spec:
       hostPID: true
       nodeSelector:
-        kubernetes.io/arch: "amd64"
         node-role.kubernetes.io/jarvice-compute: ""
       tolerations:
       - effect: NoSchedule
@@ -23,15 +22,11 @@ spec:
         operator: Exists
       containers:
       - name: exec-on-host
-        #image: ubuntu:20.04
-        image: centos:8
+        image: ubuntu:20.04
         imagePullPolicy: IfNotPresent
         command:
           - /bin/bash
           - /exec-on-host/exec-on-host.sh
-        #env:
-        #  - name: HOST_MOUNT_DIR
-        #    value: "/"
         securityContext:
           privileged: true
         volumeMounts:

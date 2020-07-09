@@ -16,12 +16,14 @@ echo -n "Waiting for $pod_count pods to finish executing..."
 while [ "$pod_count" -ne "$pods_done" ]; do
     echo -n "."
     sleep 3
-    pods_done=$(kubectl -n $namespace logs -l app=exec-on-host --tail=1 | grep -c '^exec-on-host done')
+    pods_done=$(kubectl -n $namespace logs -l app=exec-on-host --tail=1 | grep -c 'exec-on-host done:')
 done
 echo
 
 echo "exec-on-host finished on $pod_count nodes..."
 echo
-echo "Run delete.sh to remove the DaemonSet..."
+echo "View all pod logs with:  kubetail -n $namespace -l app=exec-on-host -s 30m"
+echo
+echo "Run delete.sh to remove exec-on-host DaemonSet, ConfigMap, and namespace..."
 echo
 

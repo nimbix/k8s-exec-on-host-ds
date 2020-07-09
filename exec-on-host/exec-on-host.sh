@@ -6,10 +6,10 @@ function hostexec {
     nsenter -t 1 -a "$@"
 }
 
-echo "-----------------------------------------------------------------------"
+echo "##### exec-on-host started: $(hostexec hostname) #####"
+echo
 echo "Pod hostname: $(hostname)"
-echo "Host hostname: $(hostexec hostname)"
-echo "-----------------------------------------------------------------------"
+echo
 
 # exec-on-host ConfigMap is mounted on /exec-on-host
 # Host filesystem is mounted on /host
@@ -21,8 +21,8 @@ hostexec /tmp/hello.sh
 hostexec rm /tmp/hello.sh
 
 # Signal to exec.sh that we're done
-echo "-----------------------------------------------------------------------"
-echo "exec-on-host done"
+echo
+echo "##### exec-on-host done: $(hostexec hostname) #####"
 sleep infinity
 
 exit 0

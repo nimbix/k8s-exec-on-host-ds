@@ -15,7 +15,7 @@ spec:
     spec:
       hostPID: true
       nodeSelector:
-        node-role.kubernetes.io/jarvice-compute: ""
+        node-role.kubernetes.io/jarvice-compute: "true"
       tolerations:
       - effect: NoSchedule
         key: node-role.kubernetes.io/jarvice-compute

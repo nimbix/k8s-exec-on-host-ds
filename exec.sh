@@ -2,6 +2,33 @@
 
 namespace=exec-on-host
 
+function usage {
+    cat <<EOF
+Usage:
+    $0 [options]
+
+Options:
+    --namespace <namespace>     K8s namespace to deploy DaemonSet to
+EOF
+}
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        --help)
+            usage
+            exit 0
+            ;;
+        --namespace)
+            namespace=$2
+            shift; shift
+            ;;
+        *)
+            usage
+            exit 1
+            ;;
+    esac
+done
+
 kubectl create namespace $namespace
 kubectl -n $namespace create configmap exec-on-host --from-file exec-on-host
 kubectl -n $namespace create -f exec-on-host-ds.yaml
